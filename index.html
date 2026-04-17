@@ -3,35 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบคลังแคปชั่น 22 ทรัพย์</title>
+    <title>Property Caption Hub</title>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #1c1e21; font-size: 1.1rem; }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .prop-btn { background: #ffffff; color: #4b4f56; border: 1px solid #dddfe2; padding: 14px; border-radius: 8px; text-align: left; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; }
-        .item-row { display: flex; flex-direction: column; margin-bottom: 10px; transition: all 0.3s ease; }
-        .copy-btn { flex-grow: 1; background: white; border: 1px solid #1877f2; color: #1877f2; padding: 15px; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600; text-align: left; }
-        .edit-area { border: 1px solid #dddfe2; border-top: none; padding: 8px; border-radius: 0 0 8px 8px; font-size: 0.8rem; width: 100%; box-sizing: border-box; resize: vertical; height: 60px; }
-        .used { order: 1; opacity: 0.6; }
-        .used .copy-btn { border-color: #ccd0d5; color: #90949c; background: #f5f6f7; }
+        :root {
+            --dark-blue: #003366;
+            --fb-blue: #1877f2;
+            --bg-color: #f4f7f9;
+            --text-main: #2d3436;
+            --text-sub: #636e72;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg-color); 
+            margin: 0; 
+            padding: 15px;
+            color: var(--text-main);
+        }
+
+        .container { 
+            max-width: 500px; 
+            margin: auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+        }
+
+        h2 { 
+            text-align: center; 
+            font-size: 1.4rem; 
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        /* ปุ่มหน้าหลัก */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        .prop-btn { 
+            background: #ffffff; 
+            color: var(--text-main); 
+            border: 1px solid #e0e0e0; 
+            padding: 16px 20px; 
+            border-radius: 12px; 
+            text-align: left; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .prop-btn:active { 
+            background: #f8f9fa;
+            transform: scale(0.98);
+            border-color: var(--fb-blue);
+        }
+
+        /* ปุ่มกลับหน้าหลัก */
+        .back-btn { 
+            background: var(--dark-blue); 
+            color: white; 
+            width: 100%; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            font-weight: bold; 
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0,51,102,0.2);
+        }
+
+        /* รายการแคปชั่น */
+        #caption-list { display: flex; flex-direction: column; gap: 15px; }
+        .item-row { 
+            display: flex; 
+            flex-direction: column; 
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        
+        .copy-btn { 
+            background: linear-gradient(135deg, #1877f2, #0056b3); 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        
+        .edit-area { 
+            border: none;
+            padding: 15px; 
+            font-size: 0.95rem; 
+            width: 100%; 
+            box-sizing: border-box; 
+            resize: vertical; 
+            min-height: 120px; /* ขยายให้ยาวขึ้นเล็กน้อย */
+            font-family: inherit;
+            line-height: 1.5;
+            background: #fafafa;
+            color: var(--text-main);
+            outline: none;
+        }
+        
+        .edit-area:focus { background: #ffffff; }
+
+        /* ปุ่มที่ใช้แล้ว */
+        .used-item { opacity: 0.8; order: 1; }
+        .used-item .copy-btn { background: #b2bec3; }
+        .used-item .edit-area { color: #b2bec3; }
+
         .hidden { display: none; }
-        .back-btn { background: #42b72a; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; margin-bottom: 15px; font-weight: bold; cursor: pointer; }
-        #caption-list { display: flex; flex-direction: column; }
-        .save-hint { font-size: 0.7rem; color: #ff4757; text-align: center; margin-bottom: 10px; }
+        .save-hint { 
+            font-size: 0.85rem; 
+            color: var(--text-sub); 
+            text-align: center; 
+            margin-bottom: 20px; 
+            padding: 10px;
+            background: #f0f2f5;
+            border-radius: 8px;
+        }
+
+        /* ตกแต่งตัวเลขข้างหน้า */
+        .num-badge {
+            background: #f0f2f5;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-right: 12px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
     </style>
 </head>
 <body>
 
 <div class="container" id="main-menu">
-    <h2>🏠 เลือกทรัพย์ (22 รายการ)</h2>
+    <h2>🏠 ทรัพย์สินทั้งหมด</h2>
     <div class="grid" id="property-grid"></div>
 </div>
 
 <div class="container hidden" id="caption-menu">
-    <button class="back-btn" onclick="showMain()">⬅ กลับไปหน้าเลือกทรัพย์</button>
-    <h2 id="selected-title"></h2>
-    <p class="save-hint">*วางแคปชั่นในช่องว่าง ข้อมูลจะถูกบันทึกอัตโนมัติ*</p>
+    <button class="back-btn" onclick="showMain()">⬅ กลับหน้าเลือกทรัพย์</button>
+    <h2 id="selected-title" style="margin-bottom: 10px;"></h2>
+    <div class="save-hint">วางข้อความลงในช่องด้านล่าง แล้วกดปุ่มเพื่อคัดลอก</div>
     <div id="caption-list"></div>
 </div>
 
@@ -42,7 +161,7 @@
     props.forEach((name, i) => {
         let b = document.createElement('button');
         b.className = 'prop-btn';
-        b.innerHTML = `<span>${i+1}. ${name}</span>`;
+        b.innerHTML = `<span class="num-badge">${i+1}</span> ${name}`;
         b.onclick = () => showCaps(name, i);
         grid.appendChild(b);
     });
@@ -63,34 +182,44 @@
             
             let btn = document.createElement('button');
             btn.className = 'copy-btn';
-            btn.innerText = `📋 คัดลอกชุดที่ ${j}`;
+            btn.innerText = `📋 คัดลอกแคปชั่นชุดที่ ${j}`;
             
             let area = document.createElement('textarea');
             area.className = 'edit-area';
-            area.placeholder = `วางแคปชั่นชุดที่ ${j} ที่นี่...`;
+            area.placeholder = `พิมพ์หรือวางเนื้อหาแคปชั่นที่นี่...`;
             area.value = savedText;
             
-            // บันทึกข้อมูลเมื่อมีการพิมพ์/วาง
             area.oninput = () => localStorage.setItem(storageKey, area.value);
 
             btn.onclick = () => {
-                if(!area.value) { alert("กรุณาวางเนื้อหาแคปชั่นก่อนครับ"); return; }
-                navigator.clipboard.writeText(area.value);
-                row.classList.add('used');
-                btn.innerText = `✅ คัดลอกแล้ว (ย้ายลงล่าง)`;
-                list.appendChild(row); // ย้ายไปล่างสุด
+                if(!area.value.trim()) {
+                    alert("กรุณาใส่ข้อความก่อนคัดลอกครับ");
+                    return;
+                }
+                
+                navigator.clipboard.writeText(area.value).then(() => {
+                    const originalText = btn.innerText;
+                    btn.innerText = "✅ คัดลอกสำเร็จ!";
+                    row.classList.add('used-item');
+                    list.appendChild(row); 
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                    }, 1500);
+                });
             };
 
             row.appendChild(btn);
             row.appendChild(area);
             list.appendChild(row);
         }
-        window.scrollTo(0,0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showMain() {
         document.getElementById('main-menu').classList.remove('hidden');
         document.getElementById('caption-menu').classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
 </body>
