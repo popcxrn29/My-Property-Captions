@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Caption Hub</title>
+    <title>Property Caption Hub v3</title>
     <style>
         :root {
             --dark-blue: #003366;
@@ -16,146 +16,101 @@
         body { 
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             background: var(--bg-color); 
-            margin: 0; 
-            padding: 15px;
-            color: var(--text-main);
+            margin: 0; padding: 15px; color: var(--text-main);
         }
 
         .container { 
-            max-width: 500px; 
-            margin: auto; 
-            background: white; 
-            padding: 25px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            max-width: 500px; margin: auto; background: white; padding: 25px; 
+            border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
         }
 
-        h2 { 
-            text-align: center; 
-            font-size: 1.4rem; 
-            margin-bottom: 25px;
-            letter-spacing: -0.5px;
-        }
+        h2 { text-align: center; font-size: 1.4rem; margin-bottom: 25px; }
 
-        /* ปุ่มหน้าหลัก */
         .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .prop-btn { 
-            background: #ffffff; 
-            color: var(--text-main); 
-            border: 1px solid #e0e0e0; 
-            padding: 16px 20px; 
-            border-radius: 12px; 
-            text-align: left; 
-            cursor: pointer; 
-            font-weight: 600;
-            font-size: 1rem;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
+            background: #ffffff; color: var(--text-main); border: 1px solid #e0e0e0; 
+            padding: 16px 20px; border-radius: 12px; text-align: left; 
+            cursor: pointer; font-weight: 600; font-size: 1rem;
+            display: flex; align-items: center; transition: 0.2s;
         }
-        .prop-btn:active { 
-            background: #f8f9fa;
-            transform: scale(0.98);
-            border-color: var(--fb-blue);
-        }
+        .prop-btn:active { background: #f8f9fa; transform: scale(0.98); }
 
-        /* ปุ่มกลับหน้าหลัก */
         .back-btn { 
-            background: var(--dark-blue); 
-            color: white; 
-            width: 100%; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            font-weight: bold; 
-            cursor: pointer;
-            font-size: 1rem;
+            background: var(--dark-blue); color: white; width: 100%; 
+            padding: 14px; border: none; border-radius: 12px; 
+            margin-bottom: 20px; font-weight: bold; cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,51,102,0.2);
         }
 
-        /* รายการแคปชั่น */
         #caption-list { display: flex; flex-direction: column; gap: 15px; }
         .item-row { 
-            display: flex; 
-            flex-direction: column; 
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #eee;
+            display: flex; flex-direction: column; background: #ffffff;
+            border-radius: 12px; border: 1px solid #eee; overflow: hidden;
         }
         
         .copy-btn { 
             background: linear-gradient(135deg, #1877f2, #0056b3); 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            font-size: 0.95rem;
-            transition: 0.3s;
+            color: white; border: none; padding: 14px; cursor: pointer; 
+            font-weight: 600; transition: 0.3s;
         }
         
         .edit-area { 
-            border: none;
-            padding: 15px; 
-            font-size: 0.95rem; 
-            width: 100%; 
-            box-sizing: border-box; 
-            resize: vertical; 
-            min-height: 120px; /* ขยายให้ยาวขึ้นเล็กน้อย */
-            font-family: inherit;
-            line-height: 1.5;
-            background: #fafafa;
-            color: var(--text-main);
-            outline: none;
+            border: none; padding: 15px; font-size: 0.95rem; width: 100%; 
+            box-sizing: border-box; resize: vertical; min-height: 150px; 
+            font-family: inherit; line-height: 1.5; background: #fafafa;
         }
-        
-        .edit-area:focus { background: #ffffff; }
 
-        /* ปุ่มที่ใช้แล้ว */
-        .used-item { opacity: 0.8; order: 1; }
+        .used-item { opacity: 0.7; order: 1; }
         .used-item .copy-btn { background: #b2bec3; }
-        .used-item .edit-area { color: #b2bec3; }
 
         .hidden { display: none; }
         .save-hint { 
-            font-size: 0.85rem; 
-            color: var(--text-sub); 
-            text-align: center; 
-            margin-bottom: 20px; 
-            padding: 10px;
-            background: #f0f2f5;
-            border-radius: 8px;
+            font-size: 0.85rem; color: var(--text-sub); text-align: center; 
+            margin-bottom: 20px; padding: 10px; background: #f0f2f5; border-radius: 8px;
         }
-
-        /* ตกแต่งตัวเลขข้างหน้า */
         .num-badge {
-            background: #f0f2f5;
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-right: 12px;
-            font-size: 0.8rem;
-            color: var(--text-sub);
+            background: #f0f2f5; padding: 2px 8px; border-radius: 6px;
+            margin-right: 12px; font-size: 0.8rem; color: var(--text-sub);
         }
     </style>
 </head>
 <body>
 
 <div class="container" id="main-menu">
-    <h2>🏠 ทรัพย์สินทั้งหมด</h2>
+    <h2>🏠 ทรัพย์สินทั้งหมด (22)</h2>
     <div class="grid" id="property-grid"></div>
 </div>
 
 <div class="container hidden" id="caption-menu">
     <button class="back-btn" onclick="showMain()">⬅ กลับหน้าเลือกทรัพย์</button>
-    <h2 id="selected-title" style="margin-bottom: 10px;"></h2>
-    <div class="save-hint">วางข้อความลงในช่องด้านล่าง แล้วกดปุ่มเพื่อคัดลอก</div>
+    <h2 id="selected-title"></h2>
+    <div class="save-hint">ข้อมูลที่พิมพ์จะถูกบันทึกอัตโนมัติลงในเครื่องนี้</div>
     <div id="caption-list"></div>
 </div>
 
 <script>
-    const props = ["บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรี เน่ คอนโดดอนเมือง", "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์", "สำรอง 1"];
+    const props = ["บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวัย ฮอลล์มาร์ค", "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรี เน่ คอนโดดอนเมือง", "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์", "สำรอง 1"];
+
+    // แคปชั่นเริ่มต้นสำหรับ คอนโดสุขุมวิท 49
+    const defaultCaptions = {
+        "15": [ // Index 15 คือ "คอนโดสุขุมวิท 49"
+            "✨ ใช้ชีวิตในแบบที่ “เลือกได้”\n🌿 ความสงบกลางเมืองที่หาได้ยาก\n🏙️ เชื่อมต่อสุขุมวิท พร้อมทุกไลฟ์สไตล์\n\nที่นี่…ไม่ใช่แค่คอนโด แต่คือมาตรฐานการใช้ชีวิต\n\n📍 The Crest Sukhumvit 49\n\n✨ รายละเอียด\n• คอนโดระดับพรีเมียม ใจกลางสุขุมวิท\n• ดีไซน์ทันสมัย เน้นความเป็นส่วนตัว\n• พื้นที่ใช้สอยลงตัว เหมาะอยู่อาศัยจริง\n\n🏊‍♂️ สิ่งอำนวยความสะดวก\n• สระว่ายน้ำ\n• ฟิตเนส\n• พื้นที่พักผ่อนส่วนกลาง\n\n🚝 เดินทางสะดวก ใกล้ BTS และแหล่งไลฟ์สไตล์\n\n📞 084-2656991\n📞 096-9169989\n\n#คอนโดสุขุมวิท #LuxuryCondo #สุขุมวิท49 #คอนโดหรู",
+            "🌿 ความเงียบสงบ…ที่ยังอยู่ในเมือง\n🏙️ สุขุมวิท 49 โลเคชันที่ลงตัว\n✨ ใช้ชีวิตง่าย โดยไม่ต้องเร่งรีบ\n\nพื้นที่ที่ออกแบบมาเพื่อ “พักจริง”\n\n📍 The Crest Sukhumvit 49\n\n✨ จุดเด่น\n• บรรยากาศส่วนตัว\n• โครงการไม่พลุกพล่าน\n• เหมาะอยู่อาศัยระยะยาว\n\n🏢 ส่วนกลางครบ\n• ฟิตเนส\n• สระว่ายน้ำ\n• พื้นที่สีเขียว\n\n📞 084-2656991\n📞 096-9169989\n\n#สุขุมวิท #คอนโดใจกลางเมือง #LuxuryLiving",
+            "🏙️ ทำเลที่ตอบโจทย์ “คนทำงานในเมือง”\n🚝 เดินทางสะดวก เชื่อมต่อหลายเส้นทาง\n🌿 กลับบ้านมา…ได้พักจริง\n\nชีวิตที่สมดุล เริ่มต้นจากที่อยู่อาศัย\n\n📍 The Crest Sukhumvit 49\n\n✨ รายละเอียด\n• เหมาะสำหรับคนทำงานสุขุมวิท–ทองหล่อ\n• เข้า–ออกสะดวก\n• ใกล้แหล่งร้านอาหารและคาเฟ่\n\n📌 จุดเด่น\n✔ ทำเลศักยภาพ\n✔ ใช้ชีวิตง่าย\n✔ ลดเวลาเดินทาง\n\n📞 084-2656991\n📞 096-9169989\n\n#คอนโดสุขุมวิท #ชีวิตคนเมือง #BangkokLiving",
+            "📈 คอนโดทำเลสุขุมวิท 49 “ศักยภาพระยะยาว”\n🏙️ โซนที่มีดีมานด์ผู้เช่าสูง\n💼 เหมาะทั้งอยู่อาศัยและลงทุน\n\nทรัพย์ที่ “เพิ่มมูลค่าได้จริง”\n\n📍 The Crest Sukhumvit 49\n\n✨ ศักยภาพ\n• ทำเล Prime\n• ใกล้ทองหล่อ–เอกมัย\n• กลุ่มผู้เช่าคุณภาพ\n\n📌 เหมาะสำหรับ\n✔ ลงทุนปล่อยเช่า\n✔ ซือเก็บระยะยาว\n\n📞 084-2656991\n📞 096-9169989\n\n#ลงทุนอสังหา #สุขุมวิท49 #CondoInvestment",
+            "✨ ความเรียบง่าย…ที่ดูมีระดับ\n🌿 โครงการออกแบบเพื่อความสงบ\n🏙️ แต่ยังอยู่ใจกลางสุขุมวิท\n\nความหรู…ไม่จำเป็นต้องฉูดฉาด\n\n📍 The Crest Sukhumvit 49\n\n✨ จุดเด่น\n• ดีไซน์เรียบหรู\n• บรรยากาศส่วนตัว\n• ฟังก์ชันครบ\n\n📞 084-2656991\n📞 096-9169989\n\n#คอนโดหรู #สุขุมวิท49 #MinimalLuxury",
+            "🌿 ใช้ชีวิตในพื้นที่ที่ “ออกแบบมาเพื่อคุณ”\n🏡 อยู่สบายทุกวัน\n🏙️ ใกล้เมือง แต่ไม่วุ่นวาย\n\nคุณภาพชีวิต เริ่มจากบ้านที่เลือก\n\n📍 The Crest Sukhumvit 49\n\n✨ รายละเอียด\n• พื้นที่ใช้สอยลงตัว\n• ส่วนกลางครบ\n• บรรยากาศดี\n\n📞 084-2656991\n📞 096-9169989\n\n#QualityLiving #สุขุมวิท #คอนโดกรุงเทพ",
+            "🏙️ ที่อยู่อาศัยสำหรับคนที่ “ให้ความสำคัญกับรายละเอียด”\n✨ ทุกองค์ประกอบถูกออกแบบมาอย่างตั้งใจ\n🌿 ความเป็นส่วนตัว คือหัวใจของโครงการ\n\n📍 The Crest Sukhumvit 49\n\n📌 จุดเด่น\n✔ เงียบ สงบ\n✔ เป็นส่วนตัวสูง\n✔ โลเคชันระดับ Prime\n\n📞 084-2656991\n📞 096-9169989\n\n#LuxuryCondo #สุขุมวิท49 #PremiumLiving",
+            "🏙️ อยู่สุขุมวิท แต่ไม่ต้องอยู่กับความวุ่นวาย\n🌿 พื้นที่พักผ่อนที่แท้จริง\n✨ ตอบโจทย์ทุกไลฟ์สไตล์\n\n📍 The Crest Sukhumvit 49\n\n📌 ใกล้\n• ร้านอาหาร\n• คาเฟ่\n• แหล่งไลฟ์สไตล์\n\n📞 084-2656991\n📞 096-9169989\n\n#สุขุมวิท #LifestyleCondo #BangkokLife",
+            "⚖️ สมดุลระหว่าง “งาน” และ “การพักผ่อน”\n🏙️ ใกล้เมือง แต่ได้ความสงบ\n🌿 ใช้ชีวิตได้อย่างลงตัว\n\n📍 The Crest Sukhumvit 49\n\n📌 จุดเด่น\n✔ เดินทางง่าย\n✔ อยู่สบาย\n✔ ทำเลดี\n\n📞 084-2656991\n📞 096-9169989\n\n#WorkLifeBalance #สุขุมวิท49",
+            "✨ ที่อยู่อาศัย…สะท้อนตัวตนของคุณ\n🏙️ โลเคชันระดับสุขุมวิท\n🌿 บรรยากาศพรีเมียม\n\n📍 The Crest Sukhumvit 49\n\n📌 เหมาะสำหรับ\n✔ ผู้บริหาร\n✔ คนทำงานระดับกลาง–สูง\n\n📞 084-2656991\n📞 096-9169989\n\n#LuxuryLifestyle #สุขุมวิท #คอนโดหรู",
+            "🏡 คอนโดที่ “อยู่ได้นาน” ไม่ใช่แค่ซือไว้\n🌿 ฟังก์ชันครบ ใช้งานจริง\n🏙️ ทำเลไม่ตก\n\n📍 The Crest Sukhumvit 49\n\n📌 จุดเด่น\n✔ อยู่จริงสบาย\n✔ ไม่อึดอัด\n✔ เดินทางสะดวก\n\n📞 084-2656991\n📞 096-9169989\n\n#คอนโดอยู่จริง #สุขุมวิท49",
+            "🌿 ความเงียบ…คือความหรูในอีกระดับ\n🏙️ ใจกลางเมือง แต่ไม่วุ่นวาย\n✨ เหมาะสำหรับคนที่ต้องการพื้นที่ส่วนตัว\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991\n📞 096-9169989\n\n#QuietLuxury #สุขุมวิท49",
+            "🏙️ ทำเลที่ช่วยให้ชีวิต “มีประสิทธิภาพมากขึ้น”\n🚝 เดินทางสะดวก\n🌿 กลับมาพักได้จริง\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991\n📞 096-9169989\n\n#ProfessionalLiving #สุขุมวิท",
+            "📈 อสังหาฯ ในทำเลที่ยังเติบโตต่อเนื่อง\n🏙️ สุขุมวิท 49 โซนคุณภาพ\n🌿 ลงทุนวันนี้ มองระยะยาวได้\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991\n📞 096-9169989\n\n#อสังหากรุงเทพ #ลงทุนคอนโด",
+            "💭 บ้านในเมือง…ที่ให้ความรู้สึกเหมือนได้พัก\n🌿 ธรรมชาติ + ความสงบ + ความหรู\n🏙️ ครบในที่เดียว\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991\n📞 096-9169989\n\n#LuxuryCondo #สุขุมวิท49 #BangkokCondo"
+        ]
+    };
 
     const grid = document.getElementById('property-grid');
     props.forEach((name, i) => {
@@ -175,40 +130,35 @@
         
         for (let j = 1; j <= 15; j++) {
             const storageKey = `cap_${propIndex}_${j}`;
-            const savedText = localStorage.getItem(storageKey) || "";
+            let savedText = localStorage.getItem(storageKey);
+            
+            // ถ้าเป็น สุขุมวิท 49 (Index 15) และยังไม่มีค่าใน LocalStorage ให้ดึงค่าเริ่มต้นมาใช้
+            if (!savedText && defaultCaptions[propIndex]) {
+                savedText = defaultCaptions[propIndex][j-1];
+                localStorage.setItem(storageKey, savedText);
+            }
 
             let row = document.createElement('div');
             row.className = 'item-row';
-            
             let btn = document.createElement('button');
             btn.className = 'copy-btn';
-            btn.innerText = `📋 คัดลอกแคปชั่นชุดที่ ${j}`;
-            
+            btn.innerText = `📋 คัดลอกชุดที่ ${j}`;
             let area = document.createElement('textarea');
             area.className = 'edit-area';
-            area.placeholder = `พิมพ์หรือวางเนื้อหาแคปชั่นที่นี่...`;
-            area.value = savedText;
-            
+            area.placeholder = `วางเนื้อหาแคปชั่นที่นี่...`;
+            area.value = savedText || "";
             area.oninput = () => localStorage.setItem(storageKey, area.value);
 
             btn.onclick = () => {
-                if(!area.value.trim()) {
-                    alert("กรุณาใส่ข้อความก่อนคัดลอกครับ");
-                    return;
-                }
-                
+                if(!area.value.trim()) { alert("ใส่ข้อความก่อนครับ"); return; }
                 navigator.clipboard.writeText(area.value).then(() => {
-                    const originalText = btn.innerText;
+                    const oldText = btn.innerText;
                     btn.innerText = "✅ คัดลอกสำเร็จ!";
                     row.classList.add('used-item');
                     list.appendChild(row); 
-
-                    setTimeout(() => {
-                        btn.innerText = originalText;
-                    }, 1500);
+                    setTimeout(() => btn.innerText = oldText, 1500);
                 });
             };
-
             row.appendChild(btn);
             row.appendChild(area);
             list.appendChild(row);
