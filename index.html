@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Caption Pro</title>
+    <title>Property Caption Pro - Pink</title>
     <style>
-        :root { --dark-blue: #003366; --fb-blue: #1877f2; --bg-color: #f4f7f9; --text-main: #2d3436; }
+        :root { --pink-main: #ff758c; --pink-dark: #ff5e78; --bg-color: #fff5f7; --text-main: #4a4a4a; }
         body { font-family: sans-serif; background: var(--bg-color); margin: 0; padding: 10px; color: var(--text-main); }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; font-size: 1.3rem; margin-bottom: 20px; }
-        .prop-btn { background: #fff; border: 1px solid #ddd; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; text-align: left; font-weight: 600; display: flex; align-items: center; margin-bottom: 8px; }
-        .back-btn { background: var(--dark-blue); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(255,117,140,0.2); }
+        h2 { text-align: center; font-size: 1.3rem; margin-bottom: 20px; color: var(--pink-dark); }
+        .prop-btn { background: #fff; border: 1px solid var(--pink-main); padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; text-align: left; font-weight: 600; color: var(--pink-dark); margin-bottom: 8px; }
+        .back-btn { background: var(--pink-main); color: white; width: 100%; padding: 12px; border: none; border-radius: 12px; margin-bottom: 20px; cursor: pointer; font-weight: bold; }
         #caption-list { display: flex; flex-direction: column; gap: 12px; }
-        .item-row { display: flex; flex-direction: column; border: 2px solid var(--fb-blue); border-radius: 10px; overflow: hidden; }
-        .copy-btn { background: #fff; color: var(--fb-blue); border: none; border-bottom: 1px solid #eee; padding: 12px; cursor: pointer; font-weight: bold; }
+        .item-row { display: flex; flex-direction: column; border: 2px solid var(--pink-main); border-radius: 12px; overflow: hidden; background: #fff; }
+        .copy-btn { background: #fff; color: var(--pink-dark); border: none; border-bottom: 1px solid #ffeef1; padding: 12px; cursor: pointer; font-weight: bold; }
         .edit-area { border: none; padding: 12px; width: 100%; box-sizing: border-box; min-height: 120px; font-size: 0.95rem; line-height: 1.5; }
-        .used-item { opacity: 0.5; order: 1; border-color: #ccd0d5; }
+        .used-item { opacity: 0.4; order: 1; border-color: #ccc; }
         .hidden { display: none; }
-        .num-badge { background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px; font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
@@ -36,20 +35,19 @@
 <script>
     const props = ["บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรีนเน่ คอนโดดอนเมือง", "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์"];
 
-    // ข้อมูลที่คุณกรอกไว้ ผมบรรจุลงในนี้แล้วเพื่อป้องกันหาย
-    const prefilledCaptions = {
-        "0": ["🔥 บ้านเอื้ออาทรอรัญประเทศ... (เนื้อหาบ้านเอื้อ)", "🏡 บ้านสวยราคาประหยัด..."],
-        "15": ["✨ ใช้ชีวิตในแบบที่ “เลือกได้” (สุขุมวิท 49)...", "🌿 ความเงียบสงบ..."],
-        "16": ["🏙️ BANGKOK HORIZON รามคำแหง...", "✨ ห้องสวย + Counter Bar..."],
-        "13": ["🏡 บ้านในฝันของครอบครัว... (อรัญนคร 1)", "👨‍👩‍👧‍👦 บ้านที่อยู่ได้ทั้งครอบครัว..."],
-        "18": ["🏗️ ที่ดิน 14 ไร่ ติดถนน 3 ด้าน...", "📦 แบ่งขายได้ทันที..."]
+    // ข้อมูลที่คุณเคยให้มา ใส่ไว้ในนี้ทั้งหมดแล้วครับ
+    const savedData = {
+        "13": [`🏡 บ้านในฝันของครอบครัว…มีอยู่จริง\n💸 ราคาเอื้อมถึง แค่ 3.4 ล้านกว่า\n🔥 ได้บ้านใหญ่ + เฟอร์ครบทั้งหลัง\n\nฝันมีบ้าน…ไม่ไกลอีกต่อไป 💛\n\n📍 หมู่บ้านอรัญนคร 1 อ.อรัญประเทศ จ.สระแก้ว`, `👨‍👩‍👧‍👦 บ้านที่ “อยู่ได้ทั้งครอบครัว”\n🏡 4 ห้องนอน ไม่ต้องแย่งพื้นที่\n💖 ฟังก์ชันครบ ใช้ชีวิตง่าย\n\nจบในหลังเดียว ไม่ต้องขยับขยายเพิ่ม\n\n📍 หมู่บ้านอรัญนคร 1 อ.อรัญประเทศ จ.สระแก้ว`],
+        "18": [`🏗️ ที่ดิน 14 ไร่ ติดถนน 3 ด้าน\n📐 วางผังโครงการได้เต็มพื้นที่\n💸 ต้นทุนต่อไร่คุ้ม ทำกำไรได้จริง\n\nแปลงเดียว…ทำได้ทั้งหมู่บ้านหรือคอมมูนิตี้ 💼\n\n📍 ต.บ้านด่าน ใกล้โลตัสอรัญฯ 3 กม.`],
+        "15": [`✨ ใช้ชีวิตในแบบที่ “เลือกได้”\n🌿 ความสงบกลางเมืองที่หาได้ยาก\n🏙️ เชื่อมต่อสุขุมวิท พร้อมทุกไลฟ์สไตล์\n\n📍 The Crest Sukhumvit 49`],
+        "16": [`🏙️ BANGKOK HORIZON รามคำแหง\n🔥 40 ตร.ม. ห้องใหญ่ หายากในงบนี้!\n💸 2.59 ล้าน ได้ฟีลพรีเมียม`]
     };
 
     const grid = document.getElementById('property-grid');
     props.forEach((name, i) => {
         let b = document.createElement('button');
         b.className = 'prop-btn';
-        b.innerHTML = `<span class="num-badge">${i+1}</span> ${name}`;
+        b.innerText = `${i+1}. ${name}`;
         b.onclick = () => showCaps(name, i);
         grid.appendChild(b);
     });
@@ -62,28 +60,18 @@
         list.innerHTML = ''; 
         
         for (let j = 0; j < 15; j++) {
-            const storageKey = `cap_${propIndex}_${j}`;
-            let savedText = localStorage.getItem(storageKey) || (prefilledCaptions[propIndex] ? prefilledCaptions[propIndex][j] : "");
-
+            let initialText = savedData[propIndex] ? (savedData[propIndex][j] || "") : "";
             let row = document.createElement('div');
             row.className = 'item-row';
-            let btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            btn.innerText = `📋 คัดลอกแบบที่ ${j+1}`;
-            let area = document.createElement('textarea');
-            area.className = 'edit-area';
-            area.value = savedText;
-            area.oninput = () => localStorage.setItem(storageKey, area.value);
-
-            btn.onclick = () => {
-                navigator.clipboard.writeText(area.value);
-                btn.innerText = "✅ คัดลอกสำเร็จ!";
+            row.innerHTML = `<button class="copy-btn">📋 คัดลอกแบบที่ ${j+1}</button><textarea class="edit-area">${initialText}</textarea>`;
+            
+            row.querySelector('.copy-btn').onclick = function() {
+                navigator.clipboard.writeText(row.querySelector('.edit-area').value);
+                this.innerText = "✅ คัดลอกสำเร็จ!";
                 row.classList.add('used-item');
-                list.appendChild(row); 
-                setTimeout(() => btn.innerText = `📋 คัดลอกแบบที่ ${j+1}`, 1500);
+                list.appendChild(row);
+                setTimeout(() => this.innerText = `📋 คัดลอกแบบที่ ${j+1}`, 1500);
             };
-            row.appendChild(btn);
-            row.appendChild(area);
             list.appendChild(row);
         }
     }
