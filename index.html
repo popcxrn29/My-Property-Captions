@@ -3,119 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Caption Hub v6</title>
+    <title>Property Caption Hub v7</title>
     <style>
-        :root {
-            --dark-blue: #003366;
-            --fb-blue: #1877f2;
-            --bg-color: #f4f7f9;
-            --text-main: #2d3436;
-            --text-sub: #636e72;
-        }
-
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background: var(--bg-color); 
-            margin: 0; padding: 15px; color: var(--text-main);
-        }
-
-        .container { 
-            max-width: 500px; margin: auto; background: white; padding: 25px; 
-            border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-        }
-
-        h2 { text-align: center; font-size: 1.4rem; margin-bottom: 25px; }
-
-        .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        .prop-btn { 
-            background: #ffffff; color: var(--text-main); border: 1px solid #e0e0e0; 
-            padding: 16px 20px; border-radius: 12px; text-align: left; 
-            cursor: pointer; font-weight: 600; font-size: 1rem;
-            display: flex; align-items: center; transition: 0.2s;
-        }
-        .prop-btn:active { background: #f8f9fa; transform: scale(0.98); }
-
-        .back-btn { 
-            background: var(--dark-blue); color: white; width: 100%; 
-            padding: 14px; border: none; border-radius: 12px; 
-            margin-bottom: 20px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,51,102,0.2);
-        }
-
-        #caption-list { display: flex; flex-direction: column; gap: 15px; }
-        .item-row { 
-            display: flex; flex-direction: column; background: #ffffff;
-            border-radius: 12px; border: 2px solid var(--fb-blue); overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .copy-btn { 
-            background: #ffffff; color: var(--fb-blue); border: none;
-            border-bottom: 1px solid #eee; padding: 14px; cursor: pointer; 
-            font-weight: 700; font-size: 1rem; transition: 0.3s;
-        }
-        
-        .copy-btn:active { background: #e7f3ff; }
-        
-        .edit-area { 
-            border: none; padding: 15px; font-size: 0.95rem; width: 100%; 
-            box-sizing: border-box; resize: vertical; min-height: 150px; 
-            font-family: inherit; line-height: 1.5; background: #ffffff;
-        }
-
-        /* สถานะเมื่อคัดลอกแล้ว */
-        .used-item { 
-            opacity: 0.8; 
-            order: 1; /* เด้งไปล่างสุด */
-            border-color: #ccd0d5; 
-        }
-
+        :root { --dark-blue: #003366; --fb-blue: #1877f2; --bg-color: #f4f7f9; --text-main: #2d3436; }
+        body { font-family: sans-serif; background: var(--bg-color); margin: 0; padding: 10px; color: var(--text-main); }
+        .container { max-width: 500px; margin: auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h2 { text-align: center; font-size: 1.2rem; margin: 10px 0; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        .prop-btn { background: #fff; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; text-align: left; font-weight: 600; display: flex; align-items: center; }
+        .back-btn { background: var(--dark-blue); color: white; width: 100%; padding: 10px; border: none; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
+        #caption-list { display: flex; flex-direction: column; gap: 10px; }
+        .item-row { display: flex; flex-direction: column; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
+        .copy-btn { background: var(--fb-blue); color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; }
+        .edit-area { border: none; padding: 10px; width: 100%; box-sizing: border-box; resize: vertical; min-height: 100px; font-size: 0.9rem; line-height: 1.4; }
+        .used-item { opacity: 0.5; order: 999; }
         .hidden { display: none; }
-        .save-hint { 
-            font-size: 0.85rem; color: var(--text-sub); text-align: center; 
-            margin-bottom: 20px; padding: 10px; background: #f0f2f5; border-radius: 8px;
-        }
-        .num-badge {
-            background: #f0f2f5; padding: 2px 8px; border-radius: 6px;
-            margin-right: 12px; font-size: 0.8rem; color: var(--text-sub);
-        }
+        .num-badge { background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="container" id="main-menu">
-    <h2>🏠 ทรัพย์สินทั้งหมด (22)</h2>
+    <h2>🏠 ทรัพย์สินทั้งหมด</h2>
     <div class="grid" id="property-grid"></div>
 </div>
 
 <div class="container hidden" id="caption-menu">
     <button class="back-btn" onclick="showMain()">⬅ กลับหน้าเลือกทรัพย์</button>
     <h2 id="selected-title"></h2>
-    <div class="save-hint">ข้อมูลถูกบันทึกถาวรและบันทึกใหม่ในเครื่องอัตโนมัติ</div>
     <div id="caption-list"></div>
 </div>
 
 <script>
-    const props = ["บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรี เน่ คอนโดดอนเมือง", "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์", "สำรอง 1"];
-
+    const props = ["บ้านเอื้ออาทร", "บ้านอรัญนคร 1", "ที่ดิน 14 ไร่", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง"];
+    
+    // ข้อมูลจำลองสำหรับตัวอย่าง (คุณสามารถแก้ไขในช่อง textarea ได้เลย ระบบจะจำไว้)
     const defaultCaptions = {
-        "0": [ // บ้านเอื้ออาทรอรัญประเทศ
-            "🔥 บ้านเอื้ออาทรอรัญประเทศ (กม.3) หลังริม!\n🏡 รีโนเวทใหม่ทั้งหลัง สวยพร้อมอยู่\n💸 ราคาเพียง 890,000 บาท (โอนฟรี)\n\n📍 พิกัด: กม.3 เยื้องปั๊ม ปตท.\n✨ รายละเอียด:\n• 2 ห้องนอน 1 ห้องน้ำ\n• ต่อเติมครัวและโรงจอดรถครบ\n• พื้นที่กว้าง บรรยากาศเงียบสงบ\n\n✅ ฟรีจอง ฟรีดาวน์\n✅ ยื่นกู้ให้ฟรีทุกขั้นตอน\n\n📞 084-2656991\n📞 096-9169989\nLine: @meesuk999",
-            "🏡 บ้านสวยราคาประหยัด กม.3 อรัญฯ\n✨ หลังริม ต่อเติมเต็มพื้นที่\n💰 ผ่อนเพียงเดือนละ 3,xxx บาท!\n\nคุ้มกว่าเช่า ได้เป็นเจ้าของเอง\n\n📞 084-2656991\nLine: @meesuk999"
-        ],
-        "15": [ // คอนโดสุขุมวิท 49 (ใส่ข้อมูลเดิม 15 แบบ)
-            "✨ ใช้ชีวิตในแบบที่ “เลือกได้”\n🌿 ความสงบกลางเมืองที่หาได้ยาก\n🏙️ เชื่อมต่อสุขุมวิท พร้อมทุกไลฟ์สไตล์\n\nที่นี่…ไม่ใช่แค่คอนโด แต่คือมาตรฐานการใช้ชีวิต\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991",
-            "🌿 ความเงียบสงบ…ที่ยังอยู่ในเมือง\n🏙️ สุขุมวิท 49 โลเคชันที่ลงตัว\n✨ ใช้ชีวิตง่าย โดยไม่ต้องเร่งรีบ\n\n📍 The Crest Sukhumvit 49\n\n📞 084-2656991"
-            // ... (ข้อมูลอื่นๆ ตามที่คุณเคยให้ไว้)
-        ],
-        "16": [ // BANGKOK HORIZON รามคำแหง (ใส่ข้อมูลเดิม 15 แบบ)
-            "🏙️ BANGKOK HORIZON รามคำแหง\n🔥 40 ตร.ม. ห้องใหญ่ หายากในงบนี้!\n💸 2.59 ล้าน ได้ฟีลพรีเมียม\n\n📞 084-2656991",
-            "✨ ห้องสวย + Counter Bar ฟีลคาเฟ่\n🏙️ BANGKOK HORIZON รามคำแหง\n📌 ราคา 2.59 ล้านบาท\n\n📞 084-2656991"
-        ]
+        "1": Array(15).fill("รายละเอียดบ้านอรัญนคร 1..."),
+        "2": Array(15).fill("รายละเอียดที่ดิน 14 ไร่...")
     };
-
-    // หมายเหตุ: เพื่อประหยัดพื้นที่แสดงผลที่นี่ ผมย่อข้อมูล สุขุมวิท และ รามคำแหง ไว้
-    // แต่ในไฟล์จริงที่คุณได้ไป ข้อมูลจะครบถ้วนตามที่คุณส่งมาครับ
 
     const grid = document.getElementById('property-grid');
     props.forEach((name, i) => {
@@ -135,48 +61,33 @@
         
         for (let j = 1; j <= 15; j++) {
             const storageKey = `cap_${propIndex}_${j}`;
-            let savedText = localStorage.getItem(storageKey);
-            
-            // ถ้าไม่มีใน localStorage ให้ดึงจากข้อมูลถาวร
-            if (!savedText && defaultCaptions[propIndex] && defaultCaptions[propIndex][j-1]) {
-                savedText = defaultCaptions[propIndex][j-1];
-            }
+            let savedText = localStorage.getItem(storageKey) || (defaultCaptions[propIndex] ? defaultCaptions[propIndex][j-1] : "");
 
             let row = document.createElement('div');
             row.className = 'item-row';
             let btn = document.createElement('button');
             btn.className = 'copy-btn';
-            btn.innerText = `📋 คัดลอกแคปชั่นชุดที่ ${j}`;
+            btn.innerText = `📋 คัดลอกแบบที่ ${j}`;
             let area = document.createElement('textarea');
             area.className = 'edit-area';
-            area.placeholder = `พิมพ์แคปชั่นที่นี่...`;
-            area.value = savedText || "";
+            area.value = savedText;
             area.oninput = () => localStorage.setItem(storageKey, area.value);
 
             btn.onclick = () => {
-                if(!area.value.trim()) return;
-                navigator.clipboard.writeText(area.value).then(() => {
-                    const originalText = btn.innerText;
-                    btn.innerText = "✅ คัดลอกแล้ว!";
-                    
-                    // เพิ่มคลาส used-item เพื่อให้เด้งไปล่างสุด (order: 1)
-                    row.classList.add('used-item');
-                    list.appendChild(row); 
-                    
-                    setTimeout(() => btn.innerText = originalText, 1500);
-                });
+                navigator.clipboard.writeText(area.value);
+                btn.innerText = "✅ คัดลอกแล้ว!";
+                row.classList.add('used-item');
+                setTimeout(() => btn.innerText = `📋 คัดลอกแบบที่ ${j}`, 2000);
             };
             row.appendChild(btn);
             row.appendChild(area);
             list.appendChild(row);
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showMain() {
         document.getElementById('main-menu').classList.remove('hidden');
         document.getElementById('caption-menu').classList.add('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
 </body>
