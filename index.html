@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Caption Hub v7</title>
+    <title>Property Caption Hub Pro</title>
     <style>
         :root { --dark-blue: #003366; --fb-blue: #1877f2; --bg-color: #f4f7f9; --text-main: #2d3436; }
         body { font-family: sans-serif; background: var(--bg-color); margin: 0; padding: 10px; color: var(--text-main); }
@@ -13,18 +13,17 @@
         .prop-btn { background: #fff; border: 1px solid #ddd; padding: 12px; border-radius: 8px; cursor: pointer; text-align: left; font-weight: 600; display: flex; align-items: center; }
         .back-btn { background: var(--dark-blue); color: white; width: 100%; padding: 10px; border: none; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
         #caption-list { display: flex; flex-direction: column; gap: 10px; }
-        .item-row { display: flex; flex-direction: column; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; background: #fff; }
-        .copy-btn { background: var(--fb-blue); color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; }
-        .edit-area { border: none; padding: 10px; width: 100%; box-sizing: border-box; resize: vertical; min-height: 100px; font-size: 0.9rem; line-height: 1.4; }
-        .used-item { opacity: 0.5; order: 999; }
-        .hidden { display: none; }
+        .item-row { display: flex; flex-direction: column; border: 1px solid var(--fb-blue); border-radius: 8px; overflow: hidden; background: #fff; transition: 0.3s; }
+        .copy-btn { background: #fff; color: var(--fb-blue); border: none; border-bottom: 1px solid #eee; padding: 12px; cursor: pointer; font-weight: bold; }
+        .edit-area { border: none; padding: 10px; width: 100%; box-sizing: border-box; min-height: 100px; font-size: 0.9rem; line-height: 1.4; }
+        .used-item { opacity: 0.5; order: 999; border-color: #ccc; }
         .num-badge { background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="container" id="main-menu">
-    <h2>🏠 ทรัพย์สินทั้งหมด</h2>
+    <h2>🏠 ทรัพย์สินทั้งหมด (21 รายการ)</h2>
     <div class="grid" id="property-grid"></div>
 </div>
 
@@ -35,13 +34,15 @@
 </div>
 
 <script>
-    const props = ["บ้านเอื้ออาทร", "บ้านอรัญนคร 1", "ที่ดิน 14 ไร่", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง"];
-    
-    // ข้อมูลจำลองสำหรับตัวอย่าง (คุณสามารถแก้ไขในช่อง textarea ได้เลย ระบบจะจำไว้)
-    const defaultCaptions = {
-        "1": Array(15).fill("รายละเอียดบ้านอรัญนคร 1..."),
-        "2": Array(15).fill("รายละเอียดที่ดิน 14 ไร่...")
-    };
+    const props = [
+        "บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", 
+        "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", 
+        "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", 
+        "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", 
+        "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", 
+        "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรีนเน่ คอนโดดอนเมือง", 
+        "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์"
+    ];
 
     const grid = document.getElementById('property-grid');
     props.forEach((name, i) => {
@@ -61,7 +62,7 @@
         
         for (let j = 1; j <= 15; j++) {
             const storageKey = `cap_${propIndex}_${j}`;
-            let savedText = localStorage.getItem(storageKey) || (defaultCaptions[propIndex] ? defaultCaptions[propIndex][j-1] : "");
+            let savedText = localStorage.getItem(storageKey) || "";
 
             let row = document.createElement('div');
             row.className = 'item-row';
@@ -71,6 +72,7 @@
             let area = document.createElement('textarea');
             area.className = 'edit-area';
             area.value = savedText;
+            area.placeholder = "พิมพ์รายละเอียดที่นี่...";
             area.oninput = () => localStorage.setItem(storageKey, area.value);
 
             btn.onclick = () => {
