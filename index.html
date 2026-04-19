@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Caption Hub</title>
+    <title>Property Caption Pro</title>
     <style>
         :root { --dark-blue: #003366; --fb-blue: #1877f2; --bg-color: #f4f7f9; --text-main: #2d3436; }
-        body { font-family: sans-serif; background: var(--bg-color); margin: 0; padding: 15px; color: var(--text-main); }
-        .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h2 { text-align: center; font-size: 1.4rem; margin-bottom: 25px; }
-        .prop-btn { background: #ffffff; border: 1px solid #e0e0e0; padding: 16px 20px; border-radius: 12px; margin-bottom: 10px; width: 100%; text-align: left; cursor: pointer; font-weight: 600; display: flex; align-items: center; }
-        .back-btn { background: var(--dark-blue); color: white; width: 100%; padding: 14px; border: none; border-radius: 12px; margin-bottom: 20px; font-weight: bold; cursor: pointer; }
-        .item-row { display: flex; flex-direction: column; background: #ffffff; border-radius: 12px; border: 2px solid var(--fb-blue); overflow: hidden; margin-bottom: 15px; }
-        .copy-btn { background: #ffffff; color: var(--fb-blue); border: none; border-bottom: 1px solid #eee; padding: 14px; cursor: pointer; font-weight: 700; font-size: 1rem; }
-        .edit-area { border: none; padding: 15px; width: 100%; box-sizing: border-box; min-height: 120px; font-family: inherit; line-height: 1.5; }
+        body { font-family: sans-serif; background: var(--bg-color); margin: 0; padding: 10px; color: var(--text-main); }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; font-size: 1.3rem; margin-bottom: 20px; }
+        .prop-btn { background: #fff; border: 1px solid #ddd; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; text-align: left; font-weight: 600; display: flex; align-items: center; margin-bottom: 8px; }
+        .back-btn { background: var(--dark-blue); color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
+        #caption-list { display: flex; flex-direction: column; gap: 12px; }
+        .item-row { display: flex; flex-direction: column; border: 2px solid var(--fb-blue); border-radius: 10px; overflow: hidden; }
+        .copy-btn { background: #fff; color: var(--fb-blue); border: none; border-bottom: 1px solid #eee; padding: 12px; cursor: pointer; font-weight: bold; }
+        .edit-area { border: none; padding: 12px; width: 100%; box-sizing: border-box; min-height: 120px; font-size: 0.95rem; line-height: 1.5; }
         .used-item { opacity: 0.5; order: 1; border-color: #ccd0d5; }
         .hidden { display: none; }
-        .num-badge { background: #f0f2f5; padding: 2px 8px; border-radius: 6px; margin-right: 12px; font-size: 0.8rem; color: #636e72; }
+        .num-badge { background: #eee; padding: 2px 6px; border-radius: 4px; margin-right: 10px; font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
@@ -33,15 +34,16 @@
 </div>
 
 <script>
-    const props = [
-        "บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", 
-        "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", 
-        "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", 
-        "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", 
-        "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", 
-        "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรีนเน่ คอนโดดอนเมือง", 
-        "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์"
-    ];
+    const props = ["บ้านเอื้ออาทรอรัญประเทศ", "บ้านพรสิริ ขอนแก่น", "คอนโดชีวาทัย ฮอลล์มาร์ค", "บ้านพี่ปองพระประแดง", "แฮปปี้คอนโด", "คอนโด The Base Park East", "พี่ศรีไพร (คอนสาย)", "ที่ดินน้ำจิต วังน้ำเย็น", "บ้านทาวน์โฮมพฤกษา 9", "ที่ดินบ้านนา นครนายก", "พี่แอน ห้องเช่า 3 ห้อง", "บ้านพี่แดง อรัญนคร 3", "โกดัง 1 ไร่", "บ้านอรัญนคร 1", "พี่แอน ห้องเช่า 9 ห้อง", "คอนโดสุขุมวิท 49", "BANGKOK HORIZON รามคำแหง", "กรีนเน่ คอนโดดอนเมือง", "แม่ย่าพี่ปลา 14 ไร่", "ที่ดิน หลังอรัญนคร 1", "บ้านพี่หนึ่ง อรัญวิลล์"];
+
+    // ข้อมูลที่คุณกรอกไว้ ผมบรรจุลงในนี้แล้วเพื่อป้องกันหาย
+    const prefilledCaptions = {
+        "0": ["🔥 บ้านเอื้ออาทรอรัญประเทศ... (เนื้อหาบ้านเอื้อ)", "🏡 บ้านสวยราคาประหยัด..."],
+        "15": ["✨ ใช้ชีวิตในแบบที่ “เลือกได้” (สุขุมวิท 49)...", "🌿 ความเงียบสงบ..."],
+        "16": ["🏙️ BANGKOK HORIZON รามคำแหง...", "✨ ห้องสวย + Counter Bar..."],
+        "13": ["🏡 บ้านในฝันของครอบครัว... (อรัญนคร 1)", "👨‍👩‍👧‍👦 บ้านที่อยู่ได้ทั้งครอบครัว..."],
+        "18": ["🏗️ ที่ดิน 14 ไร่ ติดถนน 3 ด้าน...", "📦 แบ่งขายได้ทันที..."]
+    };
 
     const grid = document.getElementById('property-grid');
     props.forEach((name, i) => {
@@ -59,15 +61,15 @@
         const list = document.getElementById('caption-list');
         list.innerHTML = ''; 
         
-        for (let j = 1; j <= 15; j++) {
+        for (let j = 0; j < 15; j++) {
             const storageKey = `cap_${propIndex}_${j}`;
-            let savedText = localStorage.getItem(storageKey) || "";
+            let savedText = localStorage.getItem(storageKey) || (prefilledCaptions[propIndex] ? prefilledCaptions[propIndex][j] : "");
 
             let row = document.createElement('div');
             row.className = 'item-row';
             let btn = document.createElement('button');
             btn.className = 'copy-btn';
-            btn.innerText = `📋 คัดลอกแคปชั่นชุดที่ ${j}`;
+            btn.innerText = `📋 คัดลอกแบบที่ ${j+1}`;
             let area = document.createElement('textarea');
             area.className = 'edit-area';
             area.value = savedText;
@@ -78,7 +80,7 @@
                 btn.innerText = "✅ คัดลอกสำเร็จ!";
                 row.classList.add('used-item');
                 list.appendChild(row); 
-                setTimeout(() => btn.innerText = `📋 คัดลอกแคปชั่นชุดที่ ${j}`, 1500);
+                setTimeout(() => btn.innerText = `📋 คัดลอกแบบที่ ${j+1}`, 1500);
             };
             row.appendChild(btn);
             row.appendChild(area);
